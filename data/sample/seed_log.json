@@ -1,0 +1,35 @@
+{
+  "seed": 42,
+  "sample_size": 100000,
+  "legacy_rows": 100000,
+  "target_rows": 100100,
+  "seeded_defects": {
+    "AMOUNT_ROUNDING": 800,
+    "DATE_FORMAT_DRIFT": 600,
+    "DATE_OFF_BY_ONE": 300,
+    "DUPLICATE_ID": 300,
+    "FRAUD_FLAG_DROPPED": 10,
+    "MISSING_IN_TARGET": 400,
+    "MISSING_ROUTING": 500,
+    "ORPHAN_IN_TARGET": 200,
+    "STATUS_MAPPING_ERROR": 400,
+    "TRUNCATED_ACCOUNT": 500
+  },
+  "total_seeded_defects": 4010,
+  "paysim_type_mix": {
+    "CASH_OUT": 35166,
+    "PAYMENT": 33815,
+    "CASH_IN": 21992,
+    "TRANSFER": 8376,
+    "DEBIT": 651
+  },
+  "method_mix": {
+    "ACH": 91624,
+    "WIRE": 8376
+  },
+  "date_range": [
+    "20260701",
+    "20260731"
+  ],
+  "note": "Synthetic data adapted from public PaySim. Routing numbers use prefix 99 (not a real Fed district)."
+}

@@ -1,0 +1,8 @@
+metric,value
+Legacy record count,100000
+Target row count (incl. duplicates),100100
+Target distinct payment_id,99800
+Matched records,99600
+Legacy total amount (USD),18180182908.87
+Target total amount incl. duplicates and orphans (USD),18175730752.94
+"Variance, target minus legacy (USD)",-4452155.93
