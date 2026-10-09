@@ -1,0 +1,8 @@
+test_case,scenario,idempotency_key,expected_http,expected_code,actual_http,actual_code,result
+TC-18,valid_payment,key-0001,201,,201,,Pass
+TC-19,invalid_routing_checksum,key-0002,422,ERR_ROUTING_INVALID,422,ERR_ROUTING_INVALID,Pass
+TC-20,missing_amount,key-0003,400,ERR_MISSING_FIELD,400,ERR_MISSING_FIELD,Pass
+TC-21,negative_amount,key-0004,422,ERR_AMOUNT_INVALID,422,ERR_AMOUNT_INVALID,Pass
+TC-22,duplicate_idempotency_key,key-0001,409,ERR_DUPLICATE_PAYMENT,409,ERR_DUPLICATE_PAYMENT,Pass
+TC-23,date_wrong_format,key-0005,400,ERR_DATE_FORMAT,400,ERR_DATE_FORMAT,Pass
+TC-24,unsupported_method,key-0006,400,ERR_METHOD_UNSUPPORTED,400,ERR_METHOD_UNSUPPORTED,Pass

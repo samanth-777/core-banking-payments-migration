@@ -1,0 +1,14 @@
+{
+  "payment_method": "ACH",
+  "payment_direction": "CREDIT",
+  "currency": "USD",
+  "originator": {
+    "account": "C1238616099",
+    "routing": "997309487"
+  },
+  "beneficiary": {
+    "account": "M70695990",
+    "routing": "993492246"
+  },
+  "settlement_date": "2026-10-15"
+}

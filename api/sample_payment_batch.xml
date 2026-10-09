@@ -1,0 +1,42 @@
+<?xml version='1.0' encoding='utf-8'?>
+<PaymentBatch batchId="BATCH-SAMPLE-001" currency="USD" note="synthetic sample">
+  <Payment id="PMT0000002" method="ACH">
+    <Amount>24213.67</Amount>
+    <Originator>
+      <Account>C1238616099</Account>
+      <Routing>997309487</Routing>
+    </Originator>
+    <Beneficiary>
+      <Account>M70695990</Account>
+      <Routing>993492246</Routing>
+    </Beneficiary>
+    <SettlementDate>2026-07-01</SettlementDate>
+    <TraceId>997309480000002</TraceId>
+  </Payment>
+  <Payment id="PMT0000003" method="ACH">
+    <Amount>5086.48</Amount>
+    <Originator>
+      <Account>C598357562</Account>
+      <Routing>990573605</Routing>
+    </Originator>
+    <Beneficiary>
+      <Account>M1593224710</Account>
+      <Routing>997777514</Routing>
+    </Beneficiary>
+    <SettlementDate>2026-07-01</SettlementDate>
+    <TraceId>990573600000003</TraceId>
+  </Payment>
+  <Payment id="PMT0000004" method="ACH">
+    <Amount>75405.10</Amount>
+    <Originator>
+      <Account>C263053820</Account>
+      <Routing>997309487</Routing>
+    </Originator>
+    <Beneficiary>
+      <Account>C1870252780</Account>
+      <Routing>999739437</Routing>
+    </Beneficiary>
+    <SettlementDate>2026-07-01</SettlementDate>
+    <TraceId>997309480000004</TraceId>
+  </Payment>
+</PaymentBatch>

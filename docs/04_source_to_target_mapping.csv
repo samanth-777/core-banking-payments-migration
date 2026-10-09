@@ -1,0 +1,13 @@
+map_id,legacy_field,target_field,transformation_type,business_rule,requirement_ids,recon_rules,legacy_profile
+M01,PMT_ID,payment_id,Direct move,"Preserve as is. Primary key, must be unique.","REQ-001,REQ-002,REQ-003","R01,R02,R03","len 10-10, distinct 100000, blank 0"
+M02,PMT_TYP,payment_method,Lookup,"W -> WIRE, A -> ACH. Any other value rejected to exception queue.",REQ-010,R11,"len 1-1, distinct 2, blank 0"
+M03,PMT_DIR,payment_direction,Lookup,"C -> CREDIT, D -> DEBIT. Any other value rejected.",REQ-010,R12,"len 1-1, distinct 2, blank 0"
+M04,PMT_AMT,amount_usd,Direct move,"Decimal(18,2). No rounding, no integer cast. Sum of amounts must equal legacy control total.",REQ-004,R04,"len 3-11, distinct 99598, blank 0"
+M05,ORIG_ACCT,originator_account,Direct move,Move full value. Target field length must be at least the legacy max length. No truncation.,REQ-005,R05,"len 5-11, distinct 99999, blank 0"
+M06,ORIG_RTN,originator_routing,Direct move + validate,"9 digits, ABA checksum valid. Reject blanks.",REQ-007,"R08,R13,R17","len 9-9, distinct 25, blank 0"
+M07,BENE_ACCT,beneficiary_account,Direct move,Move full value. No truncation.,REQ-005,R15,"len 6-11, distinct 92856, blank 0"
+M08,BENE_RTN,beneficiary_routing,Direct move + validate,"9 digits, ABA checksum valid. Reject blanks.",REQ-007,"R08,R14,R17","len 9-9, distinct 25, blank 0"
+M09,TRACE_NO,trace_id,Direct move,Preserve. ACH: 8-digit routing prefix + 7-digit sequence. Wire: date + reference.,REQ-011,R16,"len 15-19, distinct 100000, blank 0"
+M10,STTL_DT,settlement_date,Format conversion,YYYYMMDD -> YYYY-MM-DD (ISO 8601). Value must not change.,REQ-006,"R06,R07","len 8-8, distinct 31, blank 0"
+M11,PMT_STS,payment_status,Lookup,"STL -> SETTLED, PND -> PENDING, RTN -> RETURNED. No defaulting of unmapped codes.",REQ-008,R09,"len 3-3, distinct 3, blank 0"
+M12,FRD_FLG,fraud_indicator,Lookup,"Y -> 1, N -> 0. Flag must survive conversion for financial crime review.",REQ-009,R10,"len 1-1, distinct 2, blank 0"

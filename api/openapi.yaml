@@ -1,0 +1,96 @@
+openapi: 3.0.3
+info:
+  title: Payment Submission API (portfolio spec)
+  version: 1.0.0
+  description: >
+    Submits a single ACH or wire payment to the modern payments platform.
+    Synthetic-data portfolio project. Fictional bank, fictional platform.
+servers:
+  - url: https://api.example-bank.test/v1
+paths:
+  /payments:
+    post:
+      summary: Submit a payment
+      operationId: submitPayment
+      parameters:
+        - in: header
+          name: Idempotency-Key
+          required: true
+          schema: { type: string, minLength: 8, maxLength: 64 }
+          description: Unique per payment. Re-sending the same key returns 409.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/PaymentRequest' }
+            examples:
+              valid: { $ref: '#/components/examples/ValidPayment' }
+      responses:
+        '201':
+          description: Payment accepted
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/PaymentAccepted' }
+        '400':
+          description: Malformed request (missing field, bad date format, unsupported method)
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Error' }
+        '409':
+          description: Duplicate Idempotency-Key
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Error' }
+        '422':
+          description: Business validation failed (amount, routing number)
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Error' }
+components:
+  schemas:
+    Party:
+      type: object
+      required: [account, routing]
+      properties:
+        account: { type: string, minLength: 5, maxLength: 17 }
+        routing:
+          type: string
+          pattern: '^[0-9]{9}$'
+          description: 9 digits, ABA checksum must be valid
+    PaymentRequest:
+      type: object
+      required: [payment_method, payment_direction, amount, currency, originator, beneficiary, settlement_date]
+      properties:
+        payment_method: { type: string, enum: [ACH, WIRE] }
+        payment_direction: { type: string, enum: [CREDIT, DEBIT] }
+        amount: { type: number, multipleOf: 0.01, exclusiveMinimum: true, minimum: 0 }
+        currency: { type: string, enum: [USD] }
+        originator: { $ref: '#/components/schemas/Party' }
+        beneficiary: { $ref: '#/components/schemas/Party' }
+        settlement_date: { type: string, format: date, description: ISO 8601, YYYY-MM-DD }
+    PaymentAccepted:
+      type: object
+      properties:
+        payment_id: { type: string, example: PMT0100001 }
+        status: { type: string, enum: [PENDING] }
+        trace_id: { type: string }
+    Error:
+      type: object
+      required: [code, message]
+      properties:
+        code:
+          type: string
+          enum: [ERR_MISSING_FIELD, ERR_METHOD_UNSUPPORTED, ERR_DATE_FORMAT, ERR_AMOUNT_INVALID, ERR_ROUTING_INVALID, ERR_DUPLICATE_PAYMENT]
+        message: { type: string }
+        field: { type: string }
+  examples:
+    ValidPayment:
+      summary: Valid ACH credit
+      value:
+        payment_method: ACH
+        payment_direction: CREDIT
+        amount: 1250.75
+        currency: USD
+        originator: { account: C1238616099, routing: "997309487" }
+        beneficiary: { account: M70695990, routing: "993492246" }
+        settlement_date: "2026-10-15"
